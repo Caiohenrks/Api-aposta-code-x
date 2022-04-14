@@ -8,8 +8,11 @@ import com.codex.aposta.model.Aposta;
 import com.codex.aposta.model.Apostador;
 import com.codex.aposta.model.dto.ApostaIn;
 import com.codex.aposta.model.dto.ApostaOut;
+import com.codex.aposta.model.dto.ApostasOut;
 import com.codex.aposta.repository.ApostaRepository;
 import com.codex.aposta.repository.ApostadorRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,5 +46,19 @@ public class ApostaService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return apostaOut ;
+    }
+
+    public List<ApostasOut> buscaApostasPorIdApostador(Long idApostador) {
+        List<Aposta> apostaList = apostaRepository.findByIdApostador(idApostador);
+        List<ApostasOut> list = new ArrayList<>();
+        
+        apostaList.forEach(apostas -> {
+            ApostasOut apostasOut = new ApostasOut();
+            apostasOut.setIdApostador(apostas.getApostador().getId());
+            apostasOut.setNumeroAposta(apostas.getNumeroAposta());
+            list.add(apostasOut);
+        });
+        
+        return list;
     }
 }
