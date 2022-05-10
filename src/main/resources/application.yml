@@ -12,5 +12,7 @@ spring:
                 format_sql: true
     h2:
         console.enabled: true
+    mvc:
+        pathmatch.matching-strategy: ant-path-matcher
                 
         
